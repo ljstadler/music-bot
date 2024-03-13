@@ -163,10 +163,8 @@ async def stop(interaction: discord.Interaction) -> None:
     if not player:
         return
 
-    player.autoplay = wavelink.AutoPlayMode.disabled
-    await player.stop()
     player.queue.reset()
-    player.autoplay = wavelink.AutoPlayMode.partial
+    await player.stop()
     await interaction.response.send_message("Stopped.")
 
 
