@@ -12,6 +12,7 @@ class Client(discord.Client):
     def __init__(self) -> None:
         intents: discord.Intents = discord.Intents.default()
         intents.message_content = True
+        intents.voice_states = True
 
         discord.utils.setup_logging(level=logging.INFO)
         super().__init__(intents=intents)
@@ -32,6 +33,19 @@ class Client(discord.Client):
         await self.change_presence(
             activity=discord.Activity(type=discord.ActivityType.listening, name="Music")
         )
+
+    async def on_voice_state_update(
+        self,
+        member: discord.Member,
+        before: discord.VoiceState,
+        after: discord.VoiceState,
+    ) -> None:
+        if (
+            member.guild.voice_client is not None
+            and len(member.guild.voice_client.channel.members) == 1
+            and member.guild.voice_client.channel.members[0].id == self.user.id
+        ):
+            await member.guild.voice_client.disconnect()
 
     async def on_wavelink_node_ready(
         self, payload: wavelink.NodeReadyEventPayload
@@ -63,6 +77,10 @@ class Client(discord.Client):
             embed.add_field(name="Album", value=track.album.name)
 
         await player.home.send(embed=embed)
+
+    async def on_wavelink_inactive_player(self, player: wavelink.Player) -> None:
+        await player.home.send("Disconnected due to inactivity.")
+        await player.disconnect()
 
 
 client: Client = Client()
