@@ -1,22 +1,20 @@
-version: "3"
-
 services:
     lavalink:
         container_name: lavalink
+        image: ghcr.io/lavalink-devs/lavalink:latest-alpine
         restart: unless-stopped
         environment:
             - _JAVA_OPTIONS=-Xmx6G
             - SERVER_PORT=2333
             - LAVALINK_SERVER_PASSWORD=lavalink
-            - LAVALINK_SERVER_YOUTUBE_CONFIG_EMAIL=${YT_EMAIL}
-            - LAVALINK_SERVER_YOUTUBE_CONFIG_PASSWORD=${YT_PASSWORD}
-        image: ghcr.io/lavalink-devs/lavalink:latest-alpine
+        volumes:
+            - ./application.yaml:/opt/Lavalink/application.yaml
+            - ./plugins/:/opt/Lavalink/plugins/
+
     music-bot:
         container_name: music-bot
+        image: ghcr.io/ljstadler/music-bot:latest
         environment:
-            - LAVALINK_URI=${LAVALINK_URI}
-            - LAVALINK_PASSWORD=${LAVALINK_PASSWORD}
+            - LAVALINK_URI=http://lavalink:2333
+            - LAVALINK_PASSWORD=lavalink
             - TOKEN=${TOKEN}
-        depends_on:
-            - lavalink
-        image: ljstadler/music-bot:latest
