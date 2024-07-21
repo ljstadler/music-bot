@@ -1,16 +1,10 @@
 lavalink:
     plugins:
         - dependency: "dev.lavalink.youtube:youtube-plugin:1.4.0"
+        - dependency: "com.github.topi314.lavasrc:lavasrc-plugin:4.1.1"
     server:
         sources:
             youtube: false
-            bandcamp: true
-            soundcloud: true
-            twitch: true
-            vimeo: true
-            nico: true
-            http: true
-            local: false
 
 plugins:
     youtube:
@@ -21,3 +15,14 @@ plugins:
         clients:
             - MUSIC
             - WEB
+            - TVHTML5EMBEDDED
+    lavasrc:
+        providers:
+            - 'ytsearch:"%ISRC%"'
+            - "ytsearch:%QUERY%"
+        sources:
+            spotify: true
+            youtube: true
+        spotify:
+            clientId: ""
+            clientSecret: ""
