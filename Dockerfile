@@ -1,9 +1,14 @@
 FROM python:alpine
 
-COPY music-bot.py requirements.txt /.
+WORKDIR /music-bot
+
+COPY music-bot.py requirements.txt ./
 
 RUN apk add --no-cache build-base libffi-dev && \
-    pip install -r requirements.txt && \
-    apk del build-base
+    pip install  --no-cache-dir -r requirements.txt && \
+    apk del build-base && \
+    adduser -H -S nonroot
 
-CMD ["python", "music-bot.py"]
+USER nonroot
+
+ENTRYPOINT ["python", "music-bot.py"]

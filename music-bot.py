@@ -66,6 +66,7 @@ class Client(discord.Client):
 
         embed: discord.Embed = discord.Embed(title="Now Playing")
         embed.description = f"**{track.title}** by `{track.author}`"
+        embed.url = track.uri
 
         if track.artwork:
             embed.set_image(url=track.artwork)
