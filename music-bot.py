@@ -83,6 +83,11 @@ class Client(discord.Client):
         await player.home.send("Disconnected due to inactivity.")
         await player.disconnect()
 
+    async def on_wavelink_track_exception(
+        self, payload: wavelink.TrackExceptionEventPayload
+    ) -> None:
+        logging.error(payload.exception)
+
 
 client: Client = Client()
 
