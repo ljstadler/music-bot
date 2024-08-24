@@ -52,14 +52,10 @@ lavalink:
 
 plugins:
     youtube:
-        enabled: true
-        allowSearch: true
-        allowDirectVideoIds: true
-        allowDirectPlaylistIds: true
-        clients:
-            - MUSIC
-            - WEB
-            - TVHTML5EMBEDDED
+        oauth:
+            enabled: true
+            refreshToken: ""
+            skipInitialization: true
     lavasrc:
         providers:
             - 'ytsearch:"%ISRC%"'
