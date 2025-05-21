@@ -1,4 +1,4 @@
-FROM ghcr.io/astral-sh/uv:alpine AS builder
+FROM ghcr.io/astral-sh/uv:bookworm-slim AS builder
 ENV UV_COMPILE_BYTECODE=1 UV_LINK_MODE=copy
 
 ENV UV_PYTHON_INSTALL_DIR=/python
@@ -16,7 +16,9 @@ COPY . /app
 RUN --mount=type=cache,target=/root/.cache/uv \
     uv sync --locked --no-dev
 
-FROM alpine:latest
+FROM debian:bookworm-slim
+
+RUN apt-get update && apt-get install -y ca-certificates
 
 COPY --from=builder --chown=python:python /python /python
 
