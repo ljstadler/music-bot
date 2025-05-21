@@ -1,4 +1,4 @@
-FROM ghcr.io/astral-sh/uv:bookworm-slim AS builder
+FROM ghcr.io/astral-sh/uv:debian-slim AS builder
 ENV UV_COMPILE_BYTECODE=1 UV_LINK_MODE=copy
 
 ENV UV_PYTHON_INSTALL_DIR=/python
@@ -16,9 +16,7 @@ COPY . /app
 RUN --mount=type=cache,target=/root/.cache/uv \
     uv sync --locked --no-dev
 
-FROM debian:bookworm-slim
-
-RUN apt-get update && apt-get install -y ca-certificates
+FROM gcr.io/distroless/base-nossl
 
 COPY --from=builder --chown=python:python /python /python
 
@@ -26,4 +24,4 @@ COPY --from=builder --chown=app:app /app /app
 
 ENV PATH="/app/.venv/bin:$PATH"
 
-CMD ["python", "/app/music-bot.py"]
+ENTRYPOINT ["python", "/app/music-bot.py"]
