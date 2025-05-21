@@ -1,10 +1,6 @@
-<div align=center>
-
 # music-bot
 
 ## Lavalink Discord music bot
-
-</div>
 
 ## Usage
 

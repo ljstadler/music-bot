@@ -1,9 +1,7 @@
-name: publish
+name: Publish
 
 on:
     workflow_dispatch:
-    schedule:
-        - cron: "0 0 1 * *"
 
 jobs:
     build-and-push-image:
@@ -37,6 +35,7 @@ jobs:
                   file: ./Dockerfile
                   platforms: linux/amd64,linux/arm64
                   push: true
+                  provenance: false
                   tags: ghcr.io/${{ github.repository }}:latest
 
             - name: ghcr.io cleanup

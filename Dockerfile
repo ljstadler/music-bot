@@ -1,14 +1,27 @@
-FROM python:alpine
+FROM ghcr.io/astral-sh/uv:alpine AS builder
+ENV UV_COMPILE_BYTECODE=1 UV_LINK_MODE=copy
 
-WORKDIR /music-bot
+ENV UV_PYTHON_INSTALL_DIR=/python
 
-COPY music-bot.py requirements.txt ./
+ENV UV_PYTHON_PREFERENCE=only-managed
 
-RUN apk add --no-cache build-base libffi-dev && \
-    pip install  --no-cache-dir -r requirements.txt && \
-    apk del build-base && \
-    adduser -H -S nonroot
+RUN uv python install
 
-USER nonroot
+WORKDIR /app
+RUN --mount=type=cache,target=/root/.cache/uv \
+    --mount=type=bind,source=uv.lock,target=uv.lock \
+    --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
+    uv sync --locked --no-install-project --no-dev
+COPY . /app
+RUN --mount=type=cache,target=/root/.cache/uv \
+    uv sync --locked --no-dev
 
-ENTRYPOINT ["python", "music-bot.py"]
+FROM alpine:latest
+
+COPY --from=builder --chown=python:python /python /python
+
+COPY --from=builder --chown=app:app /app /app
+
+ENV PATH="/app/.venv/bin:$PATH"
+
+CMD ["python", "/app/music-bot.py"]

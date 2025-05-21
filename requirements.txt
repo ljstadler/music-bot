@@ -1,3 +1,0 @@
-audioop-lts
-discord.py[voice]
-wavelink
