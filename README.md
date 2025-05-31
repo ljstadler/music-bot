@@ -24,7 +24,8 @@ services:
         container_name: music-bot
         image: ghcr.io/ljstadler/music-bot:latest
         environment:
-            - LAVALINK_URI=http://lavalink:2333
+            - LAVALINK_HOST=lavalink
+            - LAVALINK_PORT=2333
             - LAVALINK_PASSWORD=lavalink
             - TOKEN=${TOKEN}
 ```
@@ -32,7 +33,7 @@ services:
 ### Docker Run
 
 ```bash
-docker run -d -e TOKEN="{TOKEN}" -e LAVALINK_URI="{LAVALINK_URI}" -e LAVALINK_PASSWORD="{LAVALINK_PASSWORD}" --name music-bot ghcr.io/ljstadler/music-bot
+docker run -d -e TOKEN="{TOKEN}" -e LAVALINK_HOST="{LAVALINK_HOST}" -e LAVALINK_PORT="{LAVALINK_PORT}" -e LAVALINK_PASSWORD="{LAVALINK_PASSWORD}" --name music-bot ghcr.io/ljstadler/music-bot
 ```
 
 ### Example application.yaml
@@ -53,12 +54,8 @@ plugins:
             refreshToken: ""
             skipInitialization: true
     lavasrc:
-        providers:
-            - 'ytsearch:"%ISRC%"'
-            - "ytsearch:%QUERY%"
         sources:
             spotify: true
-            youtube: true
         spotify:
             clientId: ""
             clientSecret: ""
