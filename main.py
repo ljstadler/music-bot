@@ -117,6 +117,8 @@ class Client(discord.Client):
         embed.url = track.uri
         if track.artwork_url:
             embed.set_image(url=track.artwork_url)
+        if track.plugin_info.get("albumName"):
+            embed.add_field(name="Album", value=track.plugin_info.get("albumName"))
         await home.send(embed=embed)
 
     @lavalink.listener(lavalink.QueueEndEvent)
