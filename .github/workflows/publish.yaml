@@ -2,6 +2,12 @@ name: Publish
 
 on:
     workflow_dispatch:
+    push:
+        paths:
+            - Dockerfile
+            - main.py
+            - pyproject.toml
+            - uv.lock
 
 jobs:
     build-and-push-image:
