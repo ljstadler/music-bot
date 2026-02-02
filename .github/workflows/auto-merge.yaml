@@ -8,20 +8,35 @@ permissions:
 
 jobs:
     check:
+        if: github.event.pull_request.user.login == 'dependabot[bot]'
+
         runs-on: ubuntu-latest
+
         steps:
             - name: Checkout
               uses: actions/checkout@v6
 
-            - name: Check
+            - name: Metadata
+              id: metadata
+              uses: dependabot/fetch-metadata@v2
+
+            - name: Check actions-dependencies
+              if: steps.metadata.outputs.dependency-group == 'actions-dependencies'
+              run: |
+                  bash <(curl https://raw.githubusercontent.com/rhysd/actionlint/main/scripts/download-actionlint.bash)
+                  ./actionlint -color
+
+            - name: Check dependencies
+              if: steps.metadata.outputs.dependency-group == 'dependencies'
               uses: astral-sh/ruff-action@v3
               with:
-                  args: check main.py
+                  src: main.py
 
     auto-merge:
         needs: check
+
         runs-on: ubuntu-latest
-        if: github.event.pull_request.user.login == 'dependabot[bot]'
+
         steps:
             - name: Merge pull request
               run: gh pr merge --auto --squash "$PR_URL"
