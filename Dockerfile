@@ -5,6 +5,8 @@ ENV UV_PYTHON_INSTALL_DIR=/python
 
 ENV UV_PYTHON_PREFERENCE=only-managed
 
+RUN apt-get update && apt-get install -y --no-install-recommends build-essential libffi-dev
+
 RUN uv python install
 
 WORKDIR /app
