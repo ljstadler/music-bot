@@ -234,12 +234,12 @@ wheels = [
 
 [[package]]
 name = "lavalink"
-version = "5.10.0"
+version = "5.11.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "aiohttp" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/b9/84/604b2666f72f93ba66a448644b757da347d773e81037b7d260ccf56e68aa/lavalink-5.10.0.tar.gz", hash = "sha256:6b364726a4db753dbe398ce4343b7eee20368b84bb6b0092156d08e0b8caf64f", size = 53652, upload-time = "2026-02-28T23:30:59.84Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/79/b9/f65847af230670ed62809ed04a70f74b4a19fe77abb3ba9ae72ae843f7ab/lavalink-5.11.0.tar.gz", hash = "sha256:6e3c33614464a4f68e366039fc1e3f256b5d0e26c637c8748a1b61345e1dfa13", size = 54491, upload-time = "2026-04-02T18:43:24.8Z" }
 
 [[package]]
 name = "multidict"
